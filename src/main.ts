@@ -7,6 +7,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
+      //Trip out the unwanted property in request body
       whitelist: true
     })
   )
