@@ -24,6 +24,7 @@
 
 ## Description
 
+[Cource Udemy](https://www.udemy.com/course/nestjs-the-complete-developers-guide) 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Project setup
