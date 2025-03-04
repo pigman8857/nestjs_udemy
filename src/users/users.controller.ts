@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Put, Body, Param, Query, NotFoundException, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Put, Body, Param, Query, NotFoundException, UseInterceptors, ClassSerializerInterceptor, Session } from '@nestjs/common';
 import { CreateUserDTO, SignInDTO } from './dtos/create-user.dto';
 import { UpdateUserDTO } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
@@ -16,16 +16,44 @@ export class UsersController {
 
     }
 
+    // @Get('/colors/:color')
+    // setColor(@Param('color')color: string, @Session()session: any){
+    //     console.log('setColor ',color);
+    //     session.color = color;
+    // }
+
+
+    // @Get('/colors')
+    // getColor(@Session()session: any){
+    //     console.log('getColor ',session);
+    //     return session.color;
+    // }
+
+    @Get('/whoami')
+    whoAmI(@Session()session: any){
+        return this.usersService.findOne(session.userID);
+    }
+
     @Post('/signup')
-    createUser(@Body()body : CreateUserDTO) {
+    async createUser(@Body()body : CreateUserDTO, @Session()session: any) {
         console.log('signup body',body);
-        return this.authService.signUp(body.email,body.password);
+        const user = await this.authService.signUp(body.email,body.password);
+        session.userID = user.id;
+        return user;
     }
 
     @Post('/signin')
-    signIn(@Body()body : SignInDTO) {
+    async signIn(@Body()body : SignInDTO,@Session()session: any) {
         console.log('signin body',body);
-        return this.authService.signIn(body.email,body.password);
+        const user = await this.authService.signIn(body.email,body.password);
+        session.userID = user.id;
+        return user;
+    }
+
+    @Post('signOut')
+    signOut(@Session()session: any){
+        console.log('signOut');
+        session.userID = null;
     }
 
     //@UseInterceptors(new SerializeInterceptor(UserDTO))
