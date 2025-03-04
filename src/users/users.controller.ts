@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Delete, Put, Body, Param, Query, NotFoundException, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
-import { CreateUserDTO } from './dtos/create-user.dto';
+import { CreateUserDTO, SignInDTO } from './dtos/create-user.dto';
 import { UpdateUserDTO } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
@@ -18,8 +18,14 @@ export class UsersController {
 
     @Post('/signup')
     createUser(@Body()body : CreateUserDTO) {
-        console.log('body',body);
+        console.log('signup body',body);
         return this.authService.signUp(body.email,body.password);
+    }
+
+    @Post('/signin')
+    signIn(@Body()body : SignInDTO) {
+        console.log('signin body',body);
+        return this.authService.signIn(body.email,body.password);
     }
 
     //@UseInterceptors(new SerializeInterceptor(UserDTO))
