@@ -16,12 +16,13 @@ export class SerializeInterceptor implements NestInterceptor {
     constructor(private dto: ClassConstructor<any>){}
 
     intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
-  
+        //console.log('SerializeInterceptor comming in');
         //Run something before a request is handled 
         //by the request handler
         //console.log('SerializeInterceptor running before the handler. , context >>> ',context);
         return next.handle().pipe(
             map((data: any) => {
+                //console.log('SerializeInterceptor going out');
                 //Run something before the response is sent out
                 //console.log('SerializeInterceptor running before response is sent out. , data >>> ',data);
 

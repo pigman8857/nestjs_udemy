@@ -1,13 +1,30 @@
-import { Controller, Get, Post, Delete, Put, Body, Param, Query, NotFoundException, UseInterceptors, ClassSerializerInterceptor, Session } from '@nestjs/common';
+import { 
+    Controller, 
+    Get, 
+    Post, 
+    Delete, 
+    Put, 
+    Body, 
+    Param, 
+    Query, 
+    NotFoundException, 
+    UseInterceptors, 
+    ClassSerializerInterceptor, 
+    Session 
+} from '@nestjs/common';
 import { CreateUserDTO, SignInDTO } from './dtos/create-user.dto';
 import { UpdateUserDTO } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDTO } from './dtos/user.dto';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
+import { User } from './user.entity';
 
 @Controller('auth')
 @Serialize(UserDTO)
+@UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
 
     constructor(
@@ -29,9 +46,22 @@ export class UsersController {
     //     return session.color;
     // }
 
+    // @Get('/whoami')
+    // whoAmI(@Session()session: any){
+    //     return this.usersService.findOne(session.userID);
+    // }
+
+    // @Get('/whoami')
+    // whoAmI(@Request() request: Request){
+    //     console.log('whoAmI with CurrentUser ',request.currentUser);
+    //      return user;
+    // }
+
+
     @Get('/whoami')
-    whoAmI(@Session()session: any){
-        return this.usersService.findOne(session.userID);
+    whoAmI(@CurrentUser() user: User){
+        //console.log('whoAmI with CurrentUser ',user);
+        return user;
     }
 
     @Post('/signup')
