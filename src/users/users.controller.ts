@@ -8,8 +8,6 @@ import {
     Param, 
     Query, 
     NotFoundException, 
-    UseInterceptors, 
-    ClassSerializerInterceptor, 
     Session 
 } from '@nestjs/common';
 import { CreateUserDTO, SignInDTO } from './dtos/create-user.dto';
@@ -19,12 +17,10 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDTO } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { CurrentUserInterceptor } from './interceptors/current-user.interceptor';
 import { User } from './user.entity';
 
 @Controller('auth')
 @Serialize(UserDTO)
-@UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
 
     constructor(
