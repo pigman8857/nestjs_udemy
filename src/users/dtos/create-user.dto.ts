@@ -7,3 +7,9 @@ export class CreateUserDTO {
     @IsString()
     password: string;
 }
+
+
+
+export class SignInDTO extends CreateUserDTO{
+    
+}
