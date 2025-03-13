@@ -10,7 +10,9 @@ describe('AuthService Unit Test',() => {
         //Create a fake copy of the users service
         const fakeUserService: Partial<UsersService> = {
             find: () => Promise.resolve([]),
-            create: (email: string, password: string) =>  Promise.resolve({id:1 , email, password} as User)
+            create: (email: string, password: string) =>  
+                Promise.resolve({id:1 , email, password} as User                    
+            )
         };
 
         const module = await Test.createTestingModule({
@@ -32,4 +34,12 @@ describe('AuthService Unit Test',() => {
         expect(service).toBeDefined();
     });
 
+    it('create a new user with a salted and hased password', async() => {
+
+        const user = await service.signUp('asdf@asdf.com','asdf');
+        expect(user.password).not.toEqual('asdf');
+        const [salt,hash] = user.password.split('.');
+        expect(salt).toBeDefined();
+        expect(hash).toBeDefined();
+    });
 });
