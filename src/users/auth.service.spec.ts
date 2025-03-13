@@ -4,8 +4,9 @@ import { UsersService } from './users.service';
 import { User } from './user.entity';
 
 describe('AuthService Unit Test',() => {
+    let service: AuthService;
 
-    it('Can create an instance of auth service', async() => {
+    beforeEach(async() => {
         //Create a fake copy of the users service
         const fakeUserService: Partial<UsersService> = {
             find: () => Promise.resolve([]),
@@ -22,11 +23,13 @@ describe('AuthService Unit Test',() => {
             ]
         }).compile();
 
-        const service = module.get(AuthService);
+        service = module.get(AuthService);
+
+    })
+
+    it('Can create an instance of auth service', async() => {
 
         expect(service).toBeDefined();
     });
-
-
 
 });
