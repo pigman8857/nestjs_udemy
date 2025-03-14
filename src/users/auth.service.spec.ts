@@ -68,6 +68,16 @@ describe('AuthService Unit Test',() => {
             authService.signIn('laskdjf@alskdfj.com', 'passowrd'),
         ).rejects.toThrow(new BadRequestException('bad password'));
       });
+
+    it('Returns a user if correct password is provided', async () => {
+        fakeUserService.find = () =>
+            Promise.resolve([
+              { email: 'asdf@asdf.com', password: 'f825e70521782095.136514914e8e3e2df7b4c19bf6308d868c9903e77b6b4ccb3f7a081746277653' } as User,
+            ]);    
+        const user = await authService.signIn('laskdjf@alskdfj.com', 'mypassword');
+   
+        expect(user).toBeDefined();
+    }) 
     
 });
 
