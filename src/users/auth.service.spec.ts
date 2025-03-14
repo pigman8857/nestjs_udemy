@@ -56,7 +56,7 @@ describe('AuthService Unit Test',() => {
     it('throws if signin is called with an unused email', async () => {
         await expect(
             authService.signIn('asdflkj@asdlfkj.com', 'passdflkj'),
-        ).rejects.toThrow(NotFoundException);
+        ).rejects.toThrow(new NotFoundException('User not found'));
     });
 
     it('throws if an invalid password is provided', async () => {
@@ -66,7 +66,7 @@ describe('AuthService Unit Test',() => {
           ]);
         await expect(
             authService.signIn('laskdjf@alskdfj.com', 'passowrd'),
-        ).rejects.toThrow(BadRequestException);
+        ).rejects.toThrow(new BadRequestException('bad password'));
       });
     
 });
