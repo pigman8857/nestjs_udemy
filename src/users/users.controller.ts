@@ -23,7 +23,6 @@ import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
 @Serialize(UserDTO)
-
 export class UsersController {
 
     constructor(
