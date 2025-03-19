@@ -20,6 +20,9 @@ export class User {
   @Column()
   password: string;
 
+  //The First argument, Report is wrapped in Function like this is because Report and User entities have circular reference to each other.
+  //From User entity When importing Report, the Report entity file will not be loaded yet which results in undefined.
+  //So we have wrap it in function to be called later, once this User entity get loaded.
   @OneToMany(() => Report, (report) => report.user)
   reports: Report[];
 
