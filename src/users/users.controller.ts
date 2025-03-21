@@ -9,7 +9,7 @@ import {
     Query, 
     NotFoundException, 
     Session,
-    UseGuards,
+    UseGuards
 } from '@nestjs/common';
 import { CreateUserDTO, SignInDTO } from './dtos/create-user.dto';
 import { UpdateUserDTO } from './dtos/update-user.dto';
