@@ -20,8 +20,9 @@ export class ReportsController {
         return this.reportsService.create(body, user);
     }
 
-    @Patch(':/id')
-    approvedReport(@Param('id')identity: string, @Body() body: ApproveRequestDTO){
-
+    @Patch('/:id')
+    approvedReport(@Param('id')id: string, @Body() body: ApproveRequestDTO){
+        const {approved} = body;
+        return this.reportsService.changeApproval(id,approved);
     }
 }
