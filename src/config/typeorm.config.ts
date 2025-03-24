@@ -10,11 +10,11 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
     createTypeOrmOptions(connectionName?: string): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
 
-        console.log('TypeOrmConfigService.createTypeOrmOptions')
         return {
             type: 'sqlite',
-            synchronize: false,
+            synchronize: this.configService.get<boolean>('SYNCHRONIZE'),
             database: this.configService.get<string>('DB_NAME'),
+            migrationsRun: this.configService.get<boolean>('MIGRATIONS_RUN'),
             autoLoadEntities: true
         }
     }

@@ -60,7 +60,6 @@ export class AppModule {
   }
 
   configure(consumer : MiddlewareConsumer){
-    console.log('AppModule.configure()');
     consumer.apply(
       cookieSession({
         keys: [this.configService.get<string>('COOKIE_KEY')]
