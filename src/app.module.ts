@@ -6,13 +6,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
-// import { User } from './users/user.entity';
-// import { Report } from './reports/report.entity';
-import { AppDataSource } from './ormconfig';
+import { TypeOrmConfigService } from './config/typeorm.config';
 
 const cookieSession = require('cookie-session');
 
-console.log('AppDataSource.options >',AppDataSource.options)
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -38,7 +35,10 @@ console.log('AppDataSource.options >',AppDataSource.options)
     //       }
     //   }
     // }),
-    TypeOrmModule.forRoot(AppDataSource.options),
+    //TypeOrmModule.forRoot(AppDataSource.options),
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmConfigService
+    }),
     UsersModule, 
     ReportsModule, 
   ],
