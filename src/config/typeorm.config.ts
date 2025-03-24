@@ -11,7 +11,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     createTypeOrmOptions(connectionName?: string): Promise<TypeOrmModuleOptions> | TypeOrmModuleOptions {
 
         return {
-            type: 'sqlite',
+            type: this.configService.get<"postgres" | "sqlite">('DB_TYPE'),
             synchronize: this.configService.get<boolean>('SYNCHRONIZE'),
             database: this.configService.get<string>('DB_NAME'),
             migrationsRun: this.configService.get<boolean>('MIGRATIONS_RUN'),
