@@ -6,9 +6,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
-import { User } from './users/user.entity';
-import { Report } from './reports/report.entity';
+import { TypeOrmConfigService } from './config/typeorm.config';
+
 const cookieSession = require('cookie-session');
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,16 +23,21 @@ const cookieSession = require('cookie-session');
     //   entities: [User, Report],
     //   synchronize: true
     // }),
+    //Below is commented out since we are gonna use orm setting file instead
+    // TypeOrmModule.forRootAsync({
+    //   inject: [ConfigService],
+    //   useFactory: (config: ConfigService) => {
+    //     return {
+    //         type: 'sqlite',
+    //         database: config.get<string>('DB_NAME'),
+    //         entities: [User, Report],
+    //         synchronize: true
+    //       }
+    //   }
+    // }),
+    //TypeOrmModule.forRoot(AppDataSource.options),
     TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-            type: 'sqlite',
-            database: config.get<string>('DB_NAME'),
-            entities: [User, Report],
-            synchronize: true
-          }
-      }
+      useClass: TypeOrmConfigService
     }),
     UsersModule, 
     ReportsModule, 
@@ -49,11 +55,14 @@ const cookieSession = require('cookie-session');
   ],
 })
 export class AppModule {
+  constructor(private configService: ConfigService){
+
+  }
+
   configure(consumer : MiddlewareConsumer){
-    console.log('AppModule.configure()');
     consumer.apply(
       cookieSession({
-        keys: ['asdfasfd']
+        keys: [this.configService.get<string>('COOKIE_KEY')]
       })
     ).forRoutes('*');
 
